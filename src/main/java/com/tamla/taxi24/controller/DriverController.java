@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/driver")
+@RequestMapping("/api")
 public class DriverController {
 
     private DriverService driverService;
@@ -17,8 +19,8 @@ public class DriverController {
     }
 
 
-    @GetMapping(value = {"", "/"})
-    public Iterable<Driver> list() {
+    @GetMapping(value = { "/drivers"})
+    public List<Driver> list() {
         return this.driverService.list();
     }
 }

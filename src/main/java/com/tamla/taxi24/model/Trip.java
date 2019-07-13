@@ -1,91 +1,236 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tamla.taxi24.model;
 
-import lombok.Data;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.time.Instant;
+import java.util.Objects;
 
 /**
- *
- * @author Mlangeni
+ * A Trip.
  */
-@Data
 @Entity
 @Table(name = "trips")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Trip implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "trip_id")
-    private Integer tripId;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
+    private Long id;
+
     @Column(name = "latitude_start")
-    private BigDecimal latitudeStart;
-    @Basic(optional = false)
-    @NotNull
+    private Float latitudeStart;
+
     @Column(name = "longitude_start")
-    private BigDecimal longitudeStart;
-    @Basic(optional = false)
-    @NotNull
+    private Float longitudeStart;
+
     @Column(name = "requested_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date requestedAt;
+    private Instant requestedAt;
+
     @Column(name = "assigned_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date assignedAt;
-    @Basic(optional = false)
-    @NotNull
+    private Instant assignedAt;
+
     @Column(name = "started_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startedAt;
-    @Basic(optional = false)
-    @NotNull
+    private Instant startedAt;
+
     @Column(name = "completed_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date completedAt;
+    private Instant completedAt;
+
     @Column(name = "km_distance_covered")
-    private BigDecimal kmDistanceCovered;
-    @JoinColumn(name = "driver_id", referencedColumnName = "driver_id")
+    private Float kmDistanceCovered;
+
     @ManyToOne
+    @JsonIgnoreProperties("tripDrivers")
     private Driver driver;
-    @JoinColumn(name = "rider_id", referencedColumnName = "rider_id")
-    @ManyToOne(optional = false)
-    private Rider riderId;
-    @JoinColumn(name = "trip_status_id", referencedColumnName = "trip_status_id")
-    @ManyToOne(optional = false)
-    private TripStatus tripStatusId;
 
-    public Trip() {
+    @ManyToOne
+    @JsonIgnoreProperties("tripRiders")
+    private Rider rider;
+
+    @ManyToOne
+    @JsonIgnoreProperties("tripStatuses")
+    private TripStatus tripStatus;
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    public Long getId() {
+        return id;
     }
 
-    public Trip(Integer tripId) {
-        this.tripId = tripId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    public Float getLatitudeStart() {
+        return latitudeStart;
+    }
 
+    public Trip latitudeStart(Float latitudeStart) {
+        this.latitudeStart = latitudeStart;
+        return this;
+    }
+
+    public void setLatitudeStart(Float latitudeStart) {
+        this.latitudeStart = latitudeStart;
+    }
+
+    public Float getLongitudeStart() {
+        return longitudeStart;
+    }
+
+    public Trip longitudeStart(Float longitudeStart) {
+        this.longitudeStart = longitudeStart;
+        return this;
+    }
+
+    public void setLongitudeStart(Float longitudeStart) {
+        this.longitudeStart = longitudeStart;
+    }
+
+    public Instant getRequestedAt() {
+        return requestedAt;
+    }
+
+    public Trip requestedAt(Instant requestedAt) {
+        this.requestedAt = requestedAt;
+        return this;
+    }
+
+    public void setRequestedAt(Instant requestedAt) {
+        this.requestedAt = requestedAt;
+    }
+
+    public Instant getAssignedAt() {
+        return assignedAt;
+    }
+
+    public Trip assignedAt(Instant assignedAt) {
+        this.assignedAt = assignedAt;
+        return this;
+    }
+
+    public void setAssignedAt(Instant assignedAt) {
+        this.assignedAt = assignedAt;
+    }
+
+    public Instant getStartedAt() {
+        return startedAt;
+    }
+
+    public Trip startedAt(Instant startedAt) {
+        this.startedAt = startedAt;
+        return this;
+    }
+
+    public void setStartedAt(Instant startedAt) {
+        this.startedAt = startedAt;
+    }
+
+    public Instant getCompletedAt() {
+        return completedAt;
+    }
+
+    public Trip completedAt(Instant completedAt) {
+        this.completedAt = completedAt;
+        return this;
+    }
+
+    public void setCompletedAt(Instant completedAt) {
+        this.completedAt = completedAt;
+    }
+
+    public Float getKmDistanceCovered() {
+        return kmDistanceCovered;
+    }
+
+    public Trip kmDistanceCovered(Float kmDistanceCovered) {
+        this.kmDistanceCovered = kmDistanceCovered;
+        return this;
+    }
+
+    public void setKmDistanceCovered(Float kmDistanceCovered) {
+        this.kmDistanceCovered = kmDistanceCovered;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public Trip driver(Driver driver) {
+        this.driver = driver;
+        return this;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Rider getRider() {
+        return rider;
+    }
+
+    public Trip rider(Rider rider) {
+        this.rider = rider;
+        return this;
+    }
+
+    public void setRider(Rider rider) {
+        this.rider = rider;
+    }
+
+    public TripStatus getTripStatus() {
+        return tripStatus;
+    }
+
+    public Trip tripStatus(TripStatus tripStatus) {
+        this.tripStatus = tripStatus;
+        return this;
+    }
+
+    public void setTripStatus(TripStatus tripStatus) {
+        this.tripStatus = tripStatus;
+    }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Trip trip = (Trip) o;
+        if (trip.getId() == null || getId() == null) {
+            return false;
+        }
+        return Objects.equals(getId(), trip.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+            "id=" + getId() +
+            ", latitudeStart=" + getLatitudeStart() +
+            ", longitudeStart=" + getLongitudeStart() +
+            ", requestedAt='" + getRequestedAt() + "'" +
+            ", assignedAt='" + getAssignedAt() + "'" +
+            ", startedAt='" + getStartedAt() + "'" +
+            ", completedAt='" + getCompletedAt() + "'" +
+            ", kmDistanceCovered=" + getKmDistanceCovered() +
+            "}";
+    }
 }
