@@ -6,19 +6,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/rider")
+@RequestMapping("/api")
 public class RiderController {
 
     private RiderService riderService;
-
 
     public RiderController(RiderService riderService) {
         this.riderService = riderService;
     }
 
-    @GetMapping(value = {"", "/"})
-    public Iterable<Rider> list(){
+    @GetMapping(value = { "/riders"})
+    public List<Rider> list(){
         return this.riderService.list();
     }
 }

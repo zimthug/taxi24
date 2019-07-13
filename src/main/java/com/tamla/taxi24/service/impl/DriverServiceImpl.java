@@ -6,6 +6,7 @@ import com.tamla.taxi24.service.DriverService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -20,4 +21,16 @@ public class DriverServiceImpl implements DriverService {
     public List<Driver> list() {
         return driverRepository.findAll();
     }
+
+    @Override
+    public List<Driver> listDriversByStatus(String driverStatus) {
+        return driverRepository.findAllByDriverStatus(driverStatus);
+    }
+
+    @Override
+    public Optional<Driver> findDriverById(Long driverId) {
+        return driverRepository.findById(driverId);
+    }
+
+
 }

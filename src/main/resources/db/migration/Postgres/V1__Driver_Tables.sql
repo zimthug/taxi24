@@ -1,30 +1,27 @@
-create table driver_status
+/*
+CREATE TABLE driver_status
 (
-driver_status_id serial not null primary key,
-status_desc varchar(60) not null
+  driver_status_id serial NOT NULL,
+  status_desc character varying(255) not null,
+  CONSTRAINT pk_driver_status PRIMARY KEY (driver_status_id)
 );
+*/
 
-create table drivers
+CREATE TABLE drivers
 (
-driver_id serial not null primary key,
-firstname varchar(60),
-surname varchar(60),
-mobile_no varchar(60) not null,
-email varchar(255) not null,
-driver_photo varchar(255),
-driver_status_id integer not null,
-completed_trips numeric(5) not null,
-kms_done numeric(9) not null,
-latitude numeric(9, 6) ,
-longitude numeric(9, 6) ,
-constraint fk_driver_info_status foreign key (driver_status_id)
-	references driver_status (driver_status_id) match simple
-    on update no action on delete no action
+  driver_id serial NOT NULL,
+  firstname character varying(255),
+  surname character varying(255),
+  mobile_no character varying(255) not null,
+  email character varying(255) not null,
+  driver_photo character varying(255),
+  completed_trips integer not null,
+  kms_done integer not null,
+  latitude numeric(9, 6),
+  longitude numeric(9, 6),
+  driver_status varchar(30) not null,
+  CONSTRAINT pk_driver PRIMARY KEY (driver_id) /*,
+  CONSTRAINT fk_driver_driver_status_id FOREIGN KEY (driver_status_id)
+      REFERENCES driver_status (driver_status_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION*/
 );
-
-alter table drivers
-  add constraint unq_drivers_email unique (email);
-  
- alter table drivers
-  add constraint unq_drivers_mobile_no unique (mobile_no);
-

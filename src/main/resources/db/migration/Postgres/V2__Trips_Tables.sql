@@ -1,39 +1,43 @@
-create table riders
+CREATE TABLE riders
 (
-rider_id serial primary key not null,
-firstname varchar(60),
-surname varchar(60),
-mobile_no varchar(60) not null,
-email varchar(255) not null 
+  rider_id serial NOT NULL,
+  firstname character varying(255),
+  surname character varying(255),
+  mobile_no character varying(255) not null,
+  email character varying(255) not null,
+  CONSTRAINT pk_rider PRIMARY KEY (rider_id)
 );
-
-create table trip_status
+/*
+CREATE TABLE trip_status
 (
-trip_status_id serial primary key not null,
-trip_status varchar(60) not null
+  trip_status_id serial NOT NULL,
+  trip_status character varying(255) not null,
+  CONSTRAINT pk_trip_status PRIMARY KEY (trip_status_id)
 );
-
-create table trips
+*/
+CREATE TABLE trips
 (
-trip_id serial primary key not null,
-rider_id integer not null,
-latitude_start numeric(9, 6) not null,
-longitude_start numeric(9, 6) not null,
-trip_status_id integer not null,
-requested_at timestamp without time zone not null default now(),
-driver_id integer, 
-assigned_at timestamp without time zone,
-started_at timestamp without time zone not null default now(),
-completed_at timestamp without time zone not null default now(),
-km_distance_covered numeric(7, 3),
-constraint fk_trip_status foreign key (trip_status_id)
-	references trip_status (trip_status_id) match simple
-    on update no action on delete no action,
-constraint fk_trip_rider foreign key (rider_id)
-	references riders (rider_id) match simple
-    on update no action on delete no action,
-constraint fk_trip_driver foreign key (driver_id)
-	references drivers (driver_id) match simple
-    on update no action on delete no action
-);
-
+  trip_id serial NOT NULL,
+  latitude_start numeric(9, 6) not null,
+  longitude_start numeric(9, 6) not null,
+  requested_at timestamp without time zone not null,
+  assigned_at timestamp without time zone,
+  started_at timestamp without time zone,
+  completed_at timestamp without time zone,
+  km_distance_covered numeric(7, 2),
+  driver_id bigint,
+  rider_id bigint not null,
+  trip_status varchar(30) not null,
+  latitude_finish numeric(9, 6),
+  longitude_finish numeric(9, 6),
+  CONSTRAINT pk_trip PRIMARY KEY (trip_id),
+  CONSTRAINT fk_trip_driver_id FOREIGN KEY (driver_id)
+      REFERENCES drivers (driver_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_trip_rider_id FOREIGN KEY (rider_id)
+      REFERENCES riders (rider_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION/*,
+  CONSTRAINT fk_trip_trip_status_id FOREIGN KEY (trip_status_id)
+      REFERENCES trip_status (trip_status_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION*/
+)
