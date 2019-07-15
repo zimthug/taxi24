@@ -45,7 +45,7 @@ public class TripController {
     }
 
 
-    @GetMapping(value = { "/trips/status/{}"})
+    @GetMapping(value = { "/trips/status/{tripStatus}"})
     public List<Trip> findByStatus(@PathVariable String tripStatus){
         return this.tripService.findAllByTripStatus(tripStatus);
     }
