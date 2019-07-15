@@ -7,14 +7,16 @@ CREATE TABLE riders
   email character varying(255) not null,
   CONSTRAINT pk_rider PRIMARY KEY (rider_id)
 );
+
 /*
-CREATE TABLE trip_status
+CREATE TABLE trip_statuses
 (
   trip_status_id serial NOT NULL,
-  trip_status character varying(255) not null,
+  status_desc character varying(255) not null,
   CONSTRAINT pk_trip_status PRIMARY KEY (trip_status_id)
 );
 */
+
 CREATE TABLE trips
 (
   trip_id serial NOT NULL,
@@ -27,7 +29,7 @@ CREATE TABLE trips
   km_distance_covered numeric(7, 2),
   driver_id bigint,
   rider_id bigint not null,
-  trip_status varchar(30) not null,
+  trip_status character varying(60) not null,
   latitude_finish numeric(9, 6),
   longitude_finish numeric(9, 6),
   CONSTRAINT pk_trip PRIMARY KEY (trip_id),
@@ -37,7 +39,7 @@ CREATE TABLE trips
   CONSTRAINT fk_trip_rider_id FOREIGN KEY (rider_id)
       REFERENCES riders (rider_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION/*,
-  CONSTRAINT fk_trip_trip_status_id FOREIGN KEY (trip_status_id)
-      REFERENCES trip_status (trip_status_id) MATCH SIMPLE
+  CONSTRAINT fk_trip_trip_status_id FOREIGN KEY (trip_status)
+      REFERENCES trip_statuses (trip_status_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION*/
-)
+);

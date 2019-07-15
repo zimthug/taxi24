@@ -20,4 +20,9 @@ public class RiderServiceImpl  implements RiderService {
     public List<Rider> list() {
         return this.riderRepository.findAll();
     }
+
+    @Override
+    public Rider findRiderByRiderId(Long riderId) {
+        return this.riderRepository.findRiderByRiderId(riderId) ;
+    }
 }

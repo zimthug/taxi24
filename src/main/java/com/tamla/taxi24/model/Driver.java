@@ -6,21 +6,13 @@
 package com.tamla.taxi24.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tamla.taxi24.model.enumeration.DriverStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -54,14 +46,15 @@ public class Driver extends AbstractPerson implements Serializable {
     private int kmsDone;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "latitude")
-    private BigDecimal latitude;
+    private double latitude;
     @Column(name = "longitude")
-    private BigDecimal longitude;
+    private double longitude;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "driver_status")
-    private String driverStatus;
+    //@JoinColumn(name = "driver_status", referencedColumnName = "driver_status_id")
+    //@ManyToOne
+    @Enumerated(value = EnumType.STRING)
+    private DriverStatusEnum driverStatus;
     @JsonIgnore
     @OneToMany(mappedBy = "driverId")
     private List<Trip> tripList;

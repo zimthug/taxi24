@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RiderService {
     List<Rider> list();
+
+    Rider findRiderByRiderId(Long riderId);
 }

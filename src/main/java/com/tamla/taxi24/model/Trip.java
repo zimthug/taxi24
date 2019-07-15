@@ -5,24 +5,13 @@
  */
 package com.tamla.taxi24.model;
 
+import com.tamla.taxi24.model.enumeration.TripStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -46,11 +35,11 @@ public class Trip implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "latitude_start")
-    private BigDecimal latitudeStart;
+    private double latitudeStart;
     @Basic(optional = false)
     @NotNull
     @Column(name = "longitude_start")
-    private BigDecimal longitudeStart;
+    private double longitudeStart;
     @Basic(optional = false)
     @NotNull
     @Column(name = "requested_at")
@@ -66,20 +55,19 @@ public class Trip implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date completedAt;
     @Column(name = "km_distance_covered")
-    private BigDecimal kmDistanceCovered;
+    private Integer kmDistanceCovered;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "trip_status")
-    private String tripStatus;
+    @Enumerated(value = EnumType.STRING)
+    private TripStatusEnum tripStatus;
     @Basic(optional = false)
     @NotNull
     @Column(name = "latitude_finish")
-    private BigDecimal latitudeFinish;
+    private double latitudeFinish;
     @Basic(optional = false)
     @NotNull
     @Column(name = "longitude_finish")
-    private BigDecimal longitudeFinish;
+    private double longitudeFinish;
     @JoinColumn(name = "driver_id", referencedColumnName = "driver_id")
     @ManyToOne
     private Driver driverId;

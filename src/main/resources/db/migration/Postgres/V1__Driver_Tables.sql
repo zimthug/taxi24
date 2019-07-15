@@ -1,11 +1,12 @@
 /*
-CREATE TABLE driver_status
+CREATE TABLE driver_statuses
 (
   driver_status_id serial NOT NULL,
   status_desc character varying(255) not null,
   CONSTRAINT pk_driver_status PRIMARY KEY (driver_status_id)
 );
 */
+
 
 CREATE TABLE drivers
 (
@@ -19,9 +20,9 @@ CREATE TABLE drivers
   kms_done integer not null,
   latitude numeric(9, 6),
   longitude numeric(9, 6),
-  driver_status varchar(30) not null,
+  driver_status character varying(120) not null,
   CONSTRAINT pk_driver PRIMARY KEY (driver_id) /*,
-  CONSTRAINT fk_driver_driver_status_id FOREIGN KEY (driver_status_id)
-      REFERENCES driver_status (driver_status_id) MATCH SIMPLE
+  CONSTRAINT fk_driver_driver_status FOREIGN KEY (driver_status)
+      REFERENCES driver_statuses (driver_status_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION*/
 );
